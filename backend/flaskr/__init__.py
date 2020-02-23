@@ -8,7 +8,7 @@ from models import setup_db, Question, Category
 
 QUESTIONS_PER_PAGE = 10
 def questions_paginator(request, selection):
-  page = request.args.get('page', 1, type=int)
+  page = request.args.get('page',1,type=int)
   start =  (page - 1) * QUESTIONS_PER_PAGE
   end = start + QUESTIONS_PER_PAGE
   questions = [question.format() for question in selection]
@@ -66,7 +66,7 @@ def create_app(test_config=None):
       "categories": categories
     })
   '''
- 
+  
   TEST: When you click the trash icon next to a question, the question will be removed.
   This removal will persist in the database and when you refresh the page. 
   '''
@@ -84,7 +84,7 @@ def create_app(test_config=None):
     except Exception:
       abort(422)
   '''
-
+  
   TEST: When you submit a question on the "Add" tab, 
   the form will clear and the question will appear at the end of the last page
   of the questions list in the "List" tab.  
@@ -162,7 +162,7 @@ def create_app(test_config=None):
 
   '''
   @TODO: 
-
+  
   TEST: In the "Play" tab, after a user selects "All" or a category,
   one question at a time is displayed, the user is allowed to answer
   and shown whether they were correct or not. 

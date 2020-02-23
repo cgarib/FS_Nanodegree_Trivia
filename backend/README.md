@@ -66,29 +66,290 @@ One note before you delve into your tasks: for each endpoint you are expected to
 8. Create a POST endpoint to get questions to play the quiz. This endpoint should take category and previous question parameters and return a random questions within the given category, if provided, and that is not one of the previous questions. 
 9. Create error handlers for all expected errors including 400, 404, 422 and 500. 
 
-REVIEW_COMMENT
-```
-This README is missing documentation of your endpoints. Below is an example for your endpoint to get all categories. Please use it as a reference for creating your documentation and resubmit your code. 
+#API Reference
+##Getting Started
+Base URL: The backend is hosted in http://127.0.0.1:5000/
 
-Endpoints
-GET '/categories'
-GET ...
-POST ...
-DELETE ...
+Error Handling: Errors are returned as JSON in the following format:
 
-GET '/categories'
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+{
+    "success": False,
+    "error": 404,
+    "message": "not found"
+}
+The API will return two types of errors:
+
+404 – not found
+422 – unprocessable
+
+##Endpoints
+#### GET '/categories'
+- Returns a list categories.
 - Request Arguments: None
 - Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
-{'1' : "Science",
-'2' : "Art",
-'3' : "Geography",
-'4' : "History",
-'5' : "Entertainment",
-'6' : "Sports"}
 
-```
+  {
+      "categories": {
+          "1": "Science", 
+          "2": "Art", 
+          "3": "Geography", 
+          "4": "History", 
+          "5": "Entertainment", 
+          "6": "Sports"
+      }, 
+      "success": true
+  }
 
+#### GET '/questions'
+- Returns a list questions.
+- Request Arguments: None 
+- Returns: Returns a list of questions. Results are paginated in groups of 10. Also, returns list of categories and total number of questions.
+
+  {
+      "categories": {
+          "1": "Science", 
+          "2": "Art", 
+          "3": "Geography", 
+          "4": "History", 
+          "5": "Entertainment", 
+          "6": "Sports"
+      }, 
+      "questions": [
+          {
+              "answer": "Colorado, New Mexico, Arizona, Utah", 
+              "category": 3, 
+              "difficulty": 3, 
+              "id": 164, 
+              "question": "Which four states make up the 4 Corners region of the US?"
+          }, 
+          {
+              "answer": "Muhammad Ali", 
+              "category": 4, 
+              "difficulty": 1, 
+              "id": 9, 
+              "question": "What boxer's original name is Cassius Clay?"
+          }, 
+          {
+              "answer": "Apollo 13", 
+              "category": 5, 
+              "difficulty": 4, 
+              "id": 2, 
+              "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+          }, 
+          {
+              "answer": "Tom Cruise", 
+              "category": 5, 
+              "difficulty": 4, 
+              "id": 4, 
+              "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+          }, 
+          {
+              "answer": "Edward Scissorhands", 
+              "category": 5, 
+              "difficulty": 3, 
+              "id": 6, 
+              "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+          }, 
+          {
+              "answer": "Brazil", 
+              "category": 6, 
+              "difficulty": 3, 
+              "id": 10, 
+              "question": "Which is the only team to play in every soccer World Cup tournament?"
+          }, 
+          {
+              "answer": "Uruguay", 
+              "category": 6, 
+              "difficulty": 4, 
+              "id": 11, 
+              "question": "Which country won the first ever soccer World Cup in 1930?"
+          }, 
+          {
+              "answer": "George Washington Carver", 
+              "category": 4, 
+              "difficulty": 2, 
+              "id": 12, 
+              "question": "Who invented Peanut Butter?"
+          }, 
+          {
+              "answer": "Lake Victoria", 
+              "category": 3, 
+              "difficulty": 2, 
+              "id": 13, 
+              "question": "What is the largest lake in Africa?"
+          }, 
+          {
+              "answer": "The Palace of Versailles", 
+              "category": 3, 
+              "difficulty": 3, 
+              "id": 14, 
+              "question": "In which royal palace would you find the Hall of Mirrors?"
+          }
+      ], 
+      "success": true, 
+      "total_questions": 19
+  }
+
+#### DELETE /questions/<int:id>
+
+- Deletes a question of specific id.
+- Request Arguments: Id of question to be deleted (integer) 
+- Returns: Id of deleted question.
+  {
+      "deleted": 1, 
+      "success": true
+  }
+
+#### POST /questions
+- This endpoint creates a new question or returns search results when no search term is included in request.
+
+If you want searh questions based on a term
+- Request Arguments: '{"searchTerm": "autobiography"}'
+- Returns: 
+{
+      "questions": [
+          {
+              "answer": "Maya Angelou", 
+              "category": 4, 
+              "difficulty": 2, 
+              "id": 5, 
+              "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+          }],
+      "success": true, 
+      "total_questions": 1
+  }
+
+If you want to create a new question
+- Request Arguments: '{ "question": "What is the closes planet to earth?", "answer": "Venus", "difficulty": 3, "category": "1" }'
+- Returns: 
+{
+	"success": true,       
+	"created": 53, 
+      "question_created": "What is the closes planet to earth?", 
+      "questions": [
+          {
+              "answer": "Apollo 13", 
+              "category": 5, 
+              "difficulty": 4, 
+              "id": 2, 
+              "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+          }, 
+          {
+              "answer": "Tom Cruise", 
+              "category": 5, 
+              "difficulty": 4, 
+              "id": 4, 
+              "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+          }, 
+          {
+              "answer": "Muhammad Ali", 
+              "category": 4, 
+              "difficulty": 1, 
+              "id": 9, 
+              "question": "What boxer's original name is Cassius Clay?"
+          }, 
+          {
+              "answer": "Brazil", 
+              "category": 6, 
+              "difficulty": 3, 
+              "id": 10, 
+              "question": "Which is the only team to play in every soccer World Cup tournament?"
+          }, 
+          {
+              "answer": "Uruguay", 
+              "category": 6, 
+              "difficulty": 4, 
+              "id": 11, 
+              "question": "Which country won the first ever soccer World Cup in 1930?"
+          }, 
+          {
+              "answer": "George Washington Carver", 
+              "category": 4, 
+              "difficulty": 2, 
+              "id": 12, 
+              "question": "Who invented Peanut Butter?"
+          }, 
+          {
+              "answer": "Lake Victoria", 
+              "category": 3, 
+              "difficulty": 2, 
+              "id": 13, 
+              "question": "What is the largest lake in Africa?"
+          }, 
+          {
+              "answer": "The Palace of Versailles", 
+              "category": 3, 
+              "difficulty": 3, 
+              "id": 14, 
+              "question": "In which royal palace would you find the Hall of Mirrors?"
+          }, 
+          {
+              "answer": "Agra", 
+              "category": 3, 
+              "difficulty": 2, 
+              "id": 15, 
+              "question": "The Taj Mahal is located in which Indian city?"
+          }, 
+          {
+              "answer": "Escher", 
+              "category": 2, 
+              "difficulty": 1, 
+              "id": 16, 
+              "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
+          }
+      ], 
+      "total_questions": 20
+  }
+
+#### GET /categories/<int:id>/questions
+- Gets all questions of a category.
+- Request Arguments: Id of category (integer) 
+- Returns: 
+
+  {
+      "current_category": "Science", 
+      "questions": [
+          {
+              "answer": "The Liver", 
+              "category": 1, 
+              "difficulty": 4, 
+              "id": 20, 
+              "question": "What is the heaviest organ in the human body?"
+          }, 
+          {
+              "answer": "Alexander Fleming", 
+              "category": 1, 
+              "difficulty": 3, 
+              "id": 21, 
+              "question": "Who discovered penicillin?"
+          }, 
+          {
+              "answer": "Blood", 
+              "category": 1, 
+              "difficulty": 4, 
+              "id": 22, 
+              "question": "Hematology is a branch of medicine involving the study of what?"
+          }
+      ], 
+      "success": true, 
+      "total_questions": 5
+  }
+
+
+#### POST /quizzes
+- Allows users to play answer questions of a given category.
+- Request Arguments: JSON request of category and previous questions '{"previous_questions": [20], "quiz_category": {"type": "Science", "id": "1"}}'
+- Returns: random question not among previous questions. 
+  {
+      "question": {
+          "answer": "Blood", 
+          "category": 1, 
+          "difficulty": 4, 
+          "id": 22, 
+          "question": "Hematology is a branch of medicine involving the study of what?"
+      }, 
+      "success": true
+  }
 
 ## Testing
 To run the tests, run

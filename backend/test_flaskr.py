@@ -52,7 +52,7 @@ class TriviaTestCase(unittest.TestCase):
         data = json.loads(response.data)
         self.assertEqual(response.status_code, 404)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'resource not found')
+        self.assertEqual(data['message'], 'not found')
 
     def test_delete_question(self):
         question = Question(question=self.new_question['question'], answer=self.new_question['answer'],category=self.new_question['category'], difficulty=self.new_question['difficulty'])
@@ -129,9 +129,9 @@ class TriviaTestCase(unittest.TestCase):
         response = self.client().get('/categories/1000/questions')
         data = json.loads(response.data)
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'bad request')
+        self.assertEqual(data['message'], 'not found')
 
     def test_play(self):
         response = self.client().post('/quizzes',json={'previous_questions': [20],'quiz_category': {'type': 'Science', 'id': '1'}})
