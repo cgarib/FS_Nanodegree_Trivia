@@ -66,28 +66,34 @@ One note before you delve into your tasks: for each endpoint you are expected to
 8. Create a POST endpoint to get questions to play the quiz. This endpoint should take category and previous question parameters and return a random questions within the given category, if provided, and that is not one of the previous questions. 
 9. Create error handlers for all expected errors including 400, 404, 422 and 500. 
 
-#API Reference
-##Getting Started
+## API Reference
+### Getting Started
 Base URL: The backend is hosted in http://127.0.0.1:5000/
 
 Error Handling: Errors are returned as JSON in the following format:
 
+```bash
 {
     "success": False,
     "error": 404,
     "message": "not found"
 }
+```
+
 The API will return two types of errors:
 
+```bash
 404 – not found
 422 – unprocessable
+```
 
-##Endpoints
+### Endpoints
 #### GET '/categories'
 - Returns a list categories.
 - Request Arguments: None
 - Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
 
+```bash
   {
       "categories": {
           "1": "Science", 
@@ -99,12 +105,14 @@ The API will return two types of errors:
       }, 
       "success": true
   }
+```
 
 #### GET '/questions'
 - Returns a list questions.
 - Request Arguments: None 
 - Returns: Returns a list of questions. Results are paginated in groups of 10. Also, returns list of categories and total number of questions.
 
+```bash
   {
       "categories": {
           "1": "Science", 
@@ -189,23 +197,34 @@ The API will return two types of errors:
       "success": true, 
       "total_questions": 19
   }
+```
 
 #### DELETE /questions/<int:id>
 
 - Deletes a question of specific id.
 - Request Arguments: Id of question to be deleted (integer) 
 - Returns: Id of deleted question.
+
+```bash
   {
       "deleted": 1, 
       "success": true
   }
+```
 
 #### POST /questions
 - This endpoint creates a new question or returns search results when no search term is included in request.
 
 If you want searh questions based on a term
-- Request Arguments: '{"searchTerm": "autobiography"}'
-- Returns: 
+- Request Arguments: 
+
+```bash
+'{"searchTerm": "autobiography"}'
+```
+
+- Returns:
+
+```bash 
 {
       "questions": [
           {
@@ -218,10 +237,18 @@ If you want searh questions based on a term
       "success": true, 
       "total_questions": 1
   }
+```
 
 If you want to create a new question
-- Request Arguments: '{ "question": "What is the closes planet to earth?", "answer": "Venus", "difficulty": 3, "category": "1" }'
+- Request Arguments: 
+
+```bash
+'{ "question": "What is the closes planet to earth?", "answer": "Venus", "difficulty": 3, "category": "1" }'
+```
+
 - Returns: 
+
+```bash
 {
 	"success": true,       
 	"created": 53, 
@@ -300,12 +327,14 @@ If you want to create a new question
       ], 
       "total_questions": 20
   }
+```
 
 #### GET /categories/<int:id>/questions
 - Gets all questions of a category.
 - Request Arguments: Id of category (integer) 
 - Returns: 
 
+```bash
   {
       "current_category": "Science", 
       "questions": [
@@ -334,12 +363,19 @@ If you want to create a new question
       "success": true, 
       "total_questions": 5
   }
-
+```
 
 #### POST /quizzes
 - Allows users to play answer questions of a given category.
-- Request Arguments: JSON request of category and previous questions '{"previous_questions": [20], "quiz_category": {"type": "Science", "id": "1"}}'
+- Request Arguments: JSON request of category and previous questions 
+
+```bash
+'{"previous_questions": [20], "quiz_category": {"type": "Science", "id": "1"}}'
+```
+
 - Returns: random question not among previous questions. 
+
+```bash
   {
       "question": {
           "answer": "Blood", 
@@ -350,6 +386,7 @@ If you want to create a new question
       }, 
       "success": true
   }
+```
 
 ## Testing
 To run the tests, run
